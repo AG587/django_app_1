@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
-from conference_room.views import NewRoom
+from conference_room.views import NewRoom, ShowRooms, delete_room
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('room/new/', csrf_exempt(NewRoom.as_view())),
+    path('room/', csrf_exempt(ShowRooms.as_view())),
+    path('room/delete/', delete_room),
 ]
