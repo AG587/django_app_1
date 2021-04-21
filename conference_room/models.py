@@ -9,7 +9,7 @@ class Room(models.Model):
 
 class Reservation(models.Model):
     date = models.DateField()
-    room = models.CharField(max_length=64)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
     comment = models.CharField(max_length=255, default="No comment")
 
     class Meta:

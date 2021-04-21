@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Room</title>
+</head>
+<body>
+<form action="#" method="POST">
+    <label> Chosen room: {{ room.room_name }} </label>
+    <label> Comment: <input name="comment" type=text> </label>
+    <label> Date of reservation (MM-DD-YYYY): <input name="date" type=date> </label>
+    <input type="hidden" name="room_name" value="{{ room.room_name }}">
+    <label> <input type="submit" value="Submit"> </label></form>
+</body>
+</html>

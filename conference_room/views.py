@@ -1,3 +1,5 @@
+from _datetime import datetime
+
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
@@ -89,3 +91,30 @@ class ModifyRoom(View):
                 k.projector_availability = new_projector_availability
                 k.save()
                 return redirect('/room/')
+
+
+class BookRoom(View):
+
+    def get(self, request):
+        room_id = request.GET.get("id")
+        room = Room.objects.get(id=room_id)
+        return render(request, "book_room_form.html", context={"room": room})
+
+    def post(self, request):
+        chosen_room_name = request.POST.get("room_name")
+        comment = request.POST.get("comment")
+        chosen_date = request.POST.get("date")
+        chosen_room = Room.objects.get(room_name=chosen_room_name)
+        try:
+            r = Reservation.objects.get(date=chosen_date)
+            message = f'Room {r.room} is already booked for this day.'
+            return HttpResponse(message)
+        except Reservation.DoesNotExist:
+            today = datetime.now()
+            if chosen_date >= str(today):
+                k = Reservation.objects.create(date=chosen_date, room=chosen_room, comment=comment)
+                k.save()
+                return redirect('/room/')
+            else:
+                message = "Date is from the past."
+                return HttpResponse(message)
